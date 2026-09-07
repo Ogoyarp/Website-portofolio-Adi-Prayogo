@@ -2,7 +2,6 @@
 
 Portofolio pribadi — Adi Prayogo (OGOYARP). Web builder & automation.
 
-**Live:** https://ogoy.web.id
 
 ## Struktur
 
