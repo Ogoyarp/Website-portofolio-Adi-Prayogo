@@ -1,4 +1,4 @@
-# ogoyarp.github.io
+# Website portofolio Adi Prayogo
 
 Portofolio pribadi — Adi Prayogo (OGOYARP). Web builder & automation.
 
