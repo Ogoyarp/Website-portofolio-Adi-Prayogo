@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" role="img" aria-label="Timeline pembangunan bot WhatsApp PPOB: dari spike, produksi, insiden session, duplikat, saldo, parsing, sampai migrasi gateway">
+  <style>
+    .t-line { stroke:#232329; stroke-width:2; }
+    .t-dot { fill:#0a0a0b; stroke:#6fe3ff; stroke-width:2; }
+    .t-dot-bad { stroke:#f87171; }
+    .t-dot-warn { stroke:#fbbf24; }
+    .t-phase { font-family:'Space Grotesk',sans-serif; font-size:13.5px; font-weight:700; fill:#f4f4f2; }
+    .t-desc { font-family:'IBM Plex Mono',monospace; font-size:10.5px; fill:#9b9ba4; }
+    .t-alt { fill:#121215; stroke:#232329; }
+    .t-up { fill:#7ff0a8; font-family:'IBM Plex Mono',monospace; font-size:10px; }
+    .t-down { fill:#ff9d9d; font-family:'IBM Plex Mono',monospace; font-size:10px; }
+  </style>
+
+  <!-- alternating background bands -->
+  <rect x="0" y="60" width="720" height="66" class="t-alt" rx="0" opacity="0.5"/>
+  <rect x="0" y="192" width="720" height="66" class="t-alt" rx="0" opacity="0.5"/>
+
+  <!-- timeline spine -->
+  <line x1="40" y1="170" x2="690" y2="170" class="t-line"/>
+
+  <!-- 0: ide -->
+  <circle cx="60" cy="170" r="9" class="t-dot"/>
+  <text x="60" y="112" text-anchor="middle" class="t-phase">Tahap 0</text>
+  <text x="60" y="130" text-anchor="middle" class="t-desc">validasi masalah</text>
+  <text x="60" y="144" text-anchor="middle" class="t-desc">5 langkah manual</text>
+  <text x="60" y="205" text-anchor="middle" class="t-up">▲ masalah nyata</text>
+
+  <!-- 1: spike -->
+  <circle cx="185" cy="170" r="9" class="t-dot"/>
+  <text x="185" y="262" text-anchor="middle" class="t-phase">Tahap 1</text>
+  <text x="185" y="280" text-anchor="middle" class="t-desc">spike 1 malam</text>
+  <text x="185" y="294" text-anchor="middle" class="t-desc">satu file, berantakan</text>
+  <text x="185" y="133" text-anchor="middle" class="t-up">▲ demo jalan</text>
+
+  <!-- 2: produksi -->
+  <circle cx="310" cy="170" r="9" class="t-dot-warn"/>
+  <text x="310" y="112" text-anchor="middle" class="t-phase">Tahap 2</text>
+  <text x="310" y="130" text-anchor="middle" class="t-desc">naik ke produksi</text>
+  <text x="310" y="144" text-anchor="middle" class="t-desc">monitoring + idempotency</text>
+  <text x="310" y="205" text-anchor="middle" class="t-down">▼ bot mati diam-diam</text>
+
+  <!-- 3: parsing -->
+  <circle cx="435" cy="170" r="9" class="t-dot-warn"/>
+  <text x="435" y="262" text-anchor="middle" class="t-phase">Tahap 3</text>
+  <text x="435" y="280" text-anchor="middle" class="t-desc">parsing pesan manusia</text>
+  <text x="435" y="294" text-anchor="middle" class="t-desc">normalisasi + regex + fallback</text>
+  <text x="435" y="133" text-anchor="middle" class="t-up">▲ belajar dari gagal-parse</text>
+
+  <!-- 4: migrasi -->
+  <circle cx="560" cy="170" r="9" class="t-dot-bad"/>
+  <text x="560" y="112" text-anchor="middle" class="t-phase">Tahap 4</text>
+  <text x="560" y="130" text-anchor="middle" class="t-desc">2x risiko banned</text>
+  <text x="560" y="144" text-anchor="middle" class="t-desc">→ migrasi gateway</text>
+  <text x="560" y="205" text-anchor="middle" class="t-down">▼ revisi mahal, perlu</text>
+
+  <!-- 5: hasil -->
+  <circle cx="672" cy="170" r="9" class="t-dot" stroke="#4ade80"/>
+  <text x="672" y="262" text-anchor="middle" class="t-phase">Hasil</text>
+  <text x="672" y="280" text-anchor="middle" class="t-desc">3 mnt → &lt;10 dtk</text>
+  <text x="672" y="294" text-anchor="middle" class="t-desc">per transaksi</text>
+  <text x="672" y="133" text-anchor="middle" class="t-up">▲ dipakai nyata</text>
+
+  <!-- bottom note -->
+  <text x="360" y="326" text-anchor="middle" class="t-desc">80% rekayasa sepele yang vital — 20% kode menarik</text>
+</svg>

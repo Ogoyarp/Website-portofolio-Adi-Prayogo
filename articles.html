@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  (function () {
+    var t = localStorage.getItem('pf-theme');
+    if (t !== 'light' && t !== 'dark') t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<title>Artikel — OGOYARP</title>
+<meta name="description" content="Artikel tentang AI dan teknologi — catatan lapangan dari builder: apa yang gagal, apa yang berhasil, tanpa teori kosong.">
+<link rel="icon" type="image/png" href="assets/avatar.png">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0b; --bg-raise: #121215; --ink: #f4f4f2; --muted: #9b9ba4;
+    --faint: #55555e; --line: #232329; --accent: #6fe3ff;
+    --accent-dim: rgba(111,227,255,.12);
+    --font-display: "Space Grotesk", system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+    --max: 1080px;
+    --nav-bg: rgba(10, 10, 11, 0.82);
+  }
+  [data-theme="light"] {
+    --bg: #f6f6f4; --bg-raise: #ecece9; --ink: #16161a; --muted: #5a5a64;
+    --faint: #8a8a94; --line: #dcdcd6; --accent: #0077a8;
+    --accent-dim: rgba(0,119,168,.10);
+    --nav-bg: rgba(246, 246, 244, 0.85);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); font-family:var(--font-display); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+
+  nav { position:fixed; top:0; left:0; right:0; z-index:50; background:var(--nav-bg); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  .nav-inner { max-width:var(--max); margin:0 auto; padding:14px 24px; display:flex; align-items:center; gap:16px; }
+  .brand { display:flex; align-items:center; gap:10px; text-decoration:none; font-weight:700; }
+  .brand img { width:38px; height:38px; border-radius:50%; border:1px solid var(--line); }
+  .nav-links { margin-left:auto; display:flex; gap:4px; align-items:center; }
+  .nav-links a { text-decoration:none; color:var(--muted); font-size:14px; padding:8px 12px; border-radius:8px; transition:color .15s, background .15s; }
+  .nav-links a:hover { color:var(--ink); background:var(--bg-raise); }
+  .nav-links a.nav-cta { color:var(--accent); border:1px solid rgba(111,227,255,.25); }
+
+  section { padding:96px 24px 60px; }
+  .wrap { max-width:var(--max); margin:0 auto; }
+  .sec-head { display:flex; align-items:baseline; gap:18px; margin-bottom:44px; }
+  .sec-index { font-family:var(--font-mono); color:var(--accent); font-size:13px; }
+  h1 { font-size:clamp(32px,5vw,52px); letter-spacing:-0.02em; font-weight:700; line-height:1.1; }
+  .lede { color:var(--muted); margin-top:16px; max-width:56ch; text-wrap:pretty; }
+
+  .article-list { display:flex; flex-direction:column; }
+  .article {
+    display:block;
+    padding:30px 8px; border-top:1px solid var(--line); text-decoration:none;
+    transition:background .15s, padding-left .2s;
+  }
+  .article:last-child { border-bottom:1px solid var(--line); }
+  .article:hover { background:var(--bg-raise); padding-left:16px; }
+  .a-num { font-family:var(--font-mono); color:var(--faint); font-size:13px; display:block; margin-bottom:8px; }
+  .article:hover .a-num { color:var(--accent); }
+  .a-title { font-size:21px; font-weight:700; letter-spacing:-0.01em; display:block; }
+  .a-desc { color:var(--muted); font-size:14.5px; margin-top:6px; max-width:64ch; text-wrap:pretty; display:block; }
+  .a-row {
+    display:grid;
+    grid-template-columns: minmax(0,1fr) 220px;
+    gap:24px;
+    align-items:center;
+  }
+  .a-cover {
+    display:block; width:100%; aspect-ratio:16/9; object-fit:cover;
+    border-radius:12px; border:1px solid var(--line);
+    transition:opacity .2s;
+  }
+  .article:hover .a-cover { opacity:.88; }
+  .a-meta { font-family:var(--font-mono); font-size:12px; color:var(--faint); margin-top:10px; display:flex; gap:14px; flex-wrap:wrap; }
+  .tag-wip { font-family:var(--font-mono); font-size:10.5px; color:#fbbf24; border:1px solid rgba(251,191,36,.35); padding:2px 7px; border-radius:99px; letter-spacing:.06em; }
+
+  .teaser {
+    margin-top:52px; padding:28px 32px;
+    border:1px solid var(--line); border-radius:16px; background:var(--bg-raise);
+  }
+  .teaser h3 { font-size:17px; margin-bottom:14px; }
+  .teaser ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .teaser li { font-size:14.5px; color:var(--muted); padding-left:22px; position:relative; }
+  .teaser li::before { content:"→"; position:absolute; left:0; color:var(--accent); font-family:var(--font-mono); font-size:13px; }
+
+  footer { border-top:1px solid var(--line); padding:26px 24px; }
+  footer .wrap { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; font-family:var(--font-mono); font-size:12px; color:var(--faint); }
+  footer a { color:var(--muted); text-decoration:none; }
+  footer a:hover { color:var(--accent); }
+
+
+  /* ---------- Navbar shared (burger + responsive) ---------- */
+  .nav-burger { display:none; background:transparent; border:1px solid var(--line); color:var(--muted); width:38px; height:38px; border-radius:8px; cursor:pointer; align-items:center; justify-content:center; margin-left:auto; flex:none; }
+  .nav-burger svg { width:18px; height:18px; }
+  .nav-burger:hover { color:var(--ink); background:var(--bg-raise); }
+  .switches { display:flex; align-items:center; gap:8px; margin:0 4px; }
+  .lang-switch, .theme-switch {
+    background:transparent; border:1px solid var(--line); color:var(--muted);
+    font-family:var(--font-mono); font-size:11.5px; padding:0; min-height:34px; min-width:34px;
+    border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+    transition:color .15s, border-color .15s, background .15s;
+  }
+  .lang-switch span { padding:0 6px; line-height:32px; }
+  .lang-switch span.on { color:var(--accent); background:var(--accent-dim); }
+  .theme-switch svg { width:15px; height:15px; }
+  .theme-switch .icon-sun { display:none; }
+  [data-theme="light"] .theme-switch .icon-sun { display:block; }
+  [data-theme="light"] .theme-switch .icon-moon { display:none; }
+  .lang-switch:hover, .theme-switch:hover { color:var(--ink); border-color:var(--faint); background:var(--bg-raise); }
+  @media (max-width:860px) {
+    .nav-burger { display:inline-flex; }
+    .nav-links { display:none; position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; gap:2px; background:var(--nav-bg); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid var(--line); padding:12px 20px 16px; }
+    .nav-links.nav-open { display:flex; }
+    .nav-links a { padding:12px 14px; font-size:15px; border-radius:10px; }
+    .switches { margin:8px 0; justify-content:flex-start; }
+  }
+  @media (max-width:720px) {
+        .teaser { padding:22px; }
+    .a-row { grid-template-columns: 1fr; }
+    .a-cover { width:100%; }
+  }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<!-- NAV_COMPONENT v1 — dipakai semua halaman. Root-relative, bekerja dari / dan /articles/ -->
+<!-- NAV_COMPONENT v2 — dipakai semua halaman. Root-relative, bekerja dari / dan /articles/ -->
+<nav aria-label="Navigasi utama">
+  <div class="nav-inner">
+    <a class="brand" href="/">
+      <img src="/assets/avatar.png" alt="Logo OGOYARP">
+      <span>OGOYARP</span>
+    </a>
+    <button class="nav-burger" id="nav-burger" type="button" aria-label="Buka menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="/" data-i18n="nav.portfolio">Portofolio</a>
+      <a href="/articles.html" data-i18n="nav.articles">Artikel</a>
+      <a href="/tentang.html" data-i18n="nav.about">Tentang</a>
+      <div class="switches">
+        <button class="lang-switch" id="lang-switch" type="button" aria-label="Ganti bahasa / Switch language">
+          <span data-lang="id" class="on">ID</span><span data-lang="en">EN</span>
+        </button>
+        <button class="theme-switch" id="theme-switch" type="button" aria-label="Ganti mode terang/gelap">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+      </div>
+      <a class="nav-cta" href="https://github.com/Ogoyarp" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+</nav>
+<script>
+(function () {
+  'use strict';
+  var mem = {};
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return mem[k] || null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { mem[k] = v; } }
+  };
+  var metaTheme = document.querySelector('meta[name="theme-color"]');
+  var themeSwitch = document.getElementById('theme-switch');
+  themeSwitch.addEventListener('click', function () {
+    var cur = document.documentElement.getAttribute('data-theme') || 'dark';
+    var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    store.set('pf-theme', next);
+    if (metaTheme) metaTheme.setAttribute('content', next === 'light' ? '#f6f6f4' : '#0a0a0b');
+  });
+  window.__applyNavLang = function (dict) {
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      if (dict[key]) el.textContent = dict[key];
+    });
+  };
+  var NAV_I18N = {
+    en: { 'nav.portfolio': 'Portfolio', 'nav.articles': 'Articles', 'nav.about': 'About' },
+    id: { 'nav.portfolio': 'Portofolio', 'nav.articles': 'Artikel', 'nav.about': 'Tentang' }
+  };
+  var langSwitch = document.getElementById('lang-switch');
+  function setLangUI(lang) {
+    langSwitch.querySelectorAll('[data-lang]').forEach(function (s) {
+      s.classList.toggle('on', s.getAttribute('data-lang') === lang);
+    });
+  }
+  langSwitch.addEventListener('click', function () {
+    var cur = store.get('pf-lang') === 'en' ? 'en' : 'id';
+    var next = cur === 'id' ? 'en' : 'id';
+    store.set('pf-lang', next);
+    document.documentElement.setAttribute('lang', next);
+    setLangUI(next);
+    window.__applyNavLang(NAV_I18N[next]);
+    if (window.__PF_I18N && window.__PF_PAGE_LANG) window.__PF_PAGE_LANG(next);
+  });
+  var savedLang = store.get('pf-lang') === 'en' ? 'en' : 'id';
+  document.documentElement.setAttribute('lang', savedLang);
+  setLangUI(savedLang);
+  if (savedLang === 'en') {
+    window.__applyNavLang(NAV_I18N.en);
+  }
+  var burger = document.getElementById('nav-burger');
+  var links = document.getElementById('nav-links');
+  burger.addEventListener('click', function () {
+    var open = links.classList.toggle('nav-open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  links.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') links.classList.remove('nav-open');
+  });
+})();
+</script>
+
+
+
+
+<section id="articles">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-index">AR</span><h1>Artikel</h1></div>
+    <p class="lede">Catatan lapangan tentang AI dan teknologi — ditulis dari sisi orang yang membangun. Apa yang gagal, apa yang berhasil, tanpa teori kosong.</p>
+
+    <div class="article-list" style="margin-top:44px;">
+      <a class="article" href="articles/menjalankan-proyek-coding-dengan-multi-ai-agent.html">
+        <span class="a-row">
+          <span>
+            <span class="a-num">/01</span>
+            <span class="a-title">Menjalankan Proyek Coding dengan Banyak AI Agent Sekaligus</span>
+            <span class="a-desc">Kanban board, worker AI, pembagian peran — bagaimana satu orang mengorkestrasi beberapa AI agent tanpa kacau. Pengalaman nyata, bukan teori.</span>
+            <span class="a-meta"><span>September 2026</span><span>~9 menit baca</span></span>
+          </span>
+          <img class="a-cover" src="articles/img/cover-multi-agent.jpg" alt="Sampul: tim merencanakan kerja di kanban board" width="220" height="124" loading="lazy">
+        </span>
+      </a>
+      <a class="article" href="articles/homelab-untuk-ai.html">
+        <span class="a-row">
+          <span>
+            <span class="a-num">/02</span>
+            <span class="a-title">Homelab untuk AI: Apa yang Bisa, Apa yang Tidak</span>
+            <span class="a-desc">CPU tanpa AVX2, RAM 1GB, dan keterbatasan lain — pelajaran nyata soal batas hardware murah ketika menjalankan tooling AI modern, dan kapan harus menyerah ke VPS.</span>
+            <span class="a-meta"><span>September 2026</span><span>~10 menit baca</span></span>
+          </span>
+          <img class="a-cover" src="articles/img/cover-homelab.jpg" alt="Sampul: rak server dengan lampu indikator" width="220" height="124" loading="lazy">
+        </span>
+      </a>
+      <a class="article" href="articles/otomasi-whatsapp-dari-nol.html">
+        <span class="a-row">
+          <span>
+            <span class="a-num">/03</span>
+            <span class="a-title">Otomasi WhatsApp dari Nol Sampai Dipakai</span>
+            <span class="a-desc">Studi kasus bot PPOB: dari ide, spike pertama, sampai bot yang dipakai transaksi nyata — dengan keputusan teknis dan trade-off di tiap tahap.</span>
+            <span class="a-meta"><span>September 2026</span><span>~12 menit baca</span></span>
+          </span>
+          <img class="a-cover" src="articles/img/cover-whatsapp.jpg?cb=2" alt="Sampul: smartphone dengan aplikasi WhatsApp" width="220" height="124" loading="lazy">
+        </span>
+      </a>
+    </div>
+
+    <div class="teaser">
+      <h3>Rencana ke depan</h3>
+      <ul>
+        <li>Self-hosting AI tooling: apa yang layak di-host sendiri, apa yang tidak</li>
+        <li>POS berbasis peran dengan Laravel + Livewire — keputusan desain di baliknya</li>
+        <li>Membangun situs perusahaan dengan AI agent sebagai rekan kerja</li>
+        <li>Catatan deployment: VPS murah, tunneling, dan DNS yang suka bikin drama</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Adi Prayogo</span>
+    <span><a href="https://github.com/Ogoyarp" target="_blank" rel="noopener">github.com/Ogoyarp</a> · <a href="https://www.threads.com/@adi.prygo" target="_blank" rel="noopener">@adi.prygo</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

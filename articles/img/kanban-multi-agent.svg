@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" role="img" aria-label="Diagram alur kerja multi AI agent: saya menulis tiket di kanban board, tiga worker paralel mengerjakan, hasil kembali untuk direview">
+  <style>
+    .k-box { fill:#121215; stroke:#232329; rx:12; }
+    .k-title { font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:700; fill:#f4f4f2; }
+    .k-sub { font-family:'IBM Plex Mono',monospace; font-size:10.5px; fill:#9b9ba4; }
+    .k-arrow { stroke:#55555e; stroke-width:1.5; fill:none; marker-end:url(#arr); }
+    .k-human { stroke:#6fe3ff; }
+    .k-review { stroke:#fbbf24; }
+    .k-lbl { font-family:'IBM Plex Mono',monospace; font-size:10px; fill:#55555e; letter-spacing:.08em; }
+    @media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) { }
+  </style>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#55555e"/>
+    </marker>
+  </defs>
+
+  <!-- Saya -->
+  <rect x="24" y="140" width="130" height="76" rx="12" fill="#121215" stroke="#6fe3ff" stroke-width="1.5"/>
+  <text x="89" y="172" text-anchor="middle" class="k-title">SAYA</text>
+  <text x="89" y="192" text-anchor="middle" class="k-sub">reviewer &amp; arsitek</text>
+
+  <!-- Kanban -->
+  <rect x="220" y="140" width="150" height="76" rx="12" fill="#121215" stroke="#232329" stroke-width="1.5"/>
+  <text x="295" y="168" text-anchor="middle" class="k-title">KANBAN BOARD</text>
+  <text x="295" y="188" text-anchor="middle" class="k-sub">tiket + definisi selesai</text>
+
+  <!-- Workers -->
+  <rect x="446" y="34" width="140" height="56" rx="12" fill="#121215" stroke="#232329" stroke-width="1.5"/>
+  <text x="516" y="58" text-anchor="middle" class="k-title">Worker A</text>
+  <text x="516" y="76" text-anchor="middle" class="k-sub">backend</text>
+
+  <rect x="446" y="150" width="140" height="56" rx="12" fill="#121215" stroke="#232329" stroke-width="1.5"/>
+  <text x="516" y="174" text-anchor="middle" class="k-title">Worker B</text>
+  <text x="516" y="192" text-anchor="middle" class="k-sub">UI / frontend</text>
+
+  <rect x="446" y="266" width="140" height="56" rx="12" fill="#121215" stroke="#232329" stroke-width="1.5"/>
+  <text x="516" y="290" text-anchor="middle" class="k-title">Worker C</text>
+  <text x="516" y="308" text-anchor="middle" class="k-sub">migrasi + test</text>
+
+  <!-- Arrows: saya -> board (tulis tiket) -->
+  <path class="k-arrow k-human" d="M 154 168 C 185 150, 190 150, 216 164"/>
+  <text x="185" y="140" text-anchor="middle" class="k-lbl">TULIS TIKET</text>
+
+  <!-- Board -> workers (assign) -->
+  <path class="k-arrow" d="M 370 158 C 400 120, 415 80, 442 68"/>
+  <path class="k-arrow" d="M 370 178 L 442 178"/>
+  <path class="k-arrow" d="M 370 198 C 400 236, 415 276, 442 288"/>
+  <text x="406" y="120" text-anchor="middle" class="k-lbl">ASSIGN</text>
+
+  <!-- Workers -> saya (hasil, untuk review) -->
+  <path class="k-arrow k-review" d="M 446 62 C 180 60, 160 100, 92 136"/>
+  <path class="k-arrow k-review" d="M 446 178 C 240 178, 200 176, 158 176"/>
+  <path class="k-arrow k-review" d="M 446 294 C 180 296, 160 254, 92 216"/>
+  <text x="250" y="60" text-anchor="middle" class="k-lbl" fill="#fbbf24">PULL REQUEST / REVIEW</text>
+
+  <!-- Bottom note -->
+  <text x="360" y="348" text-anchor="middle" class="k-sub">maks 2-3 worker per reviewer — antrean review adalah bottleneck</text>
+</svg>
